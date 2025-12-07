@@ -1,0 +1,112 @@
+
+Bhavesh Wadhwani
+
+DATA SCIENTIST + GOOGLE CLOUD CERTIFIED - MICROSOFT CERTIFIED
+
+0 (+91) 899-911-6241 | S%bhaveshwadhwanil4@gmail.com | @bhaveshwadhwani.github.io | @bhaveshwadhwani | §& bhaveshwadhwani
+
+Summary
+
+Results-oriented Data Scientist with 4.5+ years of work experience in the IT industry. Experienced in Machine-learning, Deep Learning, Com-
+puter Vision, Natural Language Processing (NLP), processing real-time data. Recently have verified my Data Science/Engineering skills too by
+passing the Microsoft Azure Data Scientist/GCP Professional Data Engineer Exam. Having worked on GCP, Azure, AWS Cloud platforms for
+various development and deployment projects enables me to have a broad view of the current phase of technology in the industry.
+
+Work Experience
+
+Neosoft Technologies Pune, India
+SENIOR CONSULTANT - DATA SCIENCE Dec. 2020 - Present
+
++ Managing international Clients as Data Science Consultant for E & Y One of BIG4 Consulting firms.
+
++ Helping top amongst fortune 100 clients to make better business decisions based on insights from their data in supply chain domain.
+
+* Optimize procurement process and demand planning cycle by forecasting sales across skus at various levels/ time intervals
+
++ Increased overall sales by 15% with accurately predicting the skus selling more in seasons/festivals
+
++ Built and maintained scalable tools for forecasting, demand planning with managing the whole data science life cycle
+
++ Skills/Tools used in Job: Azure platform, Databricks, Azure ML services, Python, Git, Jupyter Notebooks, Python, Machine Learning, Deep Learn-
+ing, Data Engineering, Docker
+
+Nihilent Ltd. Pune, India
+DATA SCIENTIST Nov. 2019 - Dec2020
+
++ Helping Top NBFC’s/ Banking Finance clients in India to make better business decisions based on insights from their data
+
++ Developed end-to-end machine learning prototypes and scaled them to run in production environments, increased efficiency by 23% on
+model performance
++ Designed an overall architecture and pipelines of the Machine Learning / Deep Learning based applications with the micro-services architec-
+ure
++ Implemented solutions from scratch for data science, working on whole life cycle of solutions
++ Deployed scalable production models for internet scale data
+* Skills/Tools used in Job: GCP platform, Git, Jupyter, Python, Machine Learning, Google Bigquery, Deep Learning, Docker, Data Engineering
+
+Infosys Pune, India
+DATA SCIENTIST Dec. 2017 - Jun. 2019
+
++ Working with ONGC Client (Top 10 - Fortune 500) to reduce cost and improve efficiency for servers using data science
+
+* Certified from Infosys for Python, SQL, Machine Learning, Deep Learning
+
++ As part of Infosys NIA OPS-Analytics team we target to improve performance and create high business value and we successfully reduced
+manual work to 60% by atomizing solutions
+
++ Cleaned and Analyzed text data using Python, NLP techniques, ML Algorithms
+
++ Improved performance of servers by 8% and reduce critical alerts by 10% by using previous event alert log data using Machine Learning
+
+Eventbeep Entertainment LLP Pune, India
+
+SOFTWARE ENGINEER - WEB DEVELOPER INTERN June. 2017 - Dec. 2017
+
++ Woked ona product Ticketing platform for college and university events”
+
++ Full stack developer using technologies like Php, codeignitor framework, javascript, html, css, bootstrap.
+
+* Responsible for developing new features on website with leading a team of 5 interns.
+
++ Few key features in which | had contributed in the product were Integrating payment gateways to website, SMS and Email - integration for
+ticketing platform, built dynamic display for events with minimal latency.
+
+OCTOBER 21, 2021 BHAVESH WADHWANI - RESUME 1
+
+Skills
+
+Programming: Python
+Database: MS-SQL, MySQL, SQLite, Mongo DB, BigQuery
+Scientific Computing Frameworks: Numpy, SciPy, Pandas, Dask, GeoPandas
+ML Toolbox: = Sklearn, NLTK, OpenCyV, Keras, Tensorflow, Azure ML, Pytorch, Azure ML Studio
+Deployment Toolbox: Azure ML, GCP Al Platform, AWS Sagemaker, Docker, Kubeflow, Flask
+Data Visualization Tools: Plotly, Matplotlib, Seaborn
+Cloud Platforms: Google Cloud Platform(GCP), Azure, AWS, Google Colab, Heroku
+Project Dev. Tools: Jupyter Notebook, Github, VSCode IDE, Machine Learning Algorithms, Deep Learning Techinques
+
+Certifications
+2021 Microsoft Certified, Azure Data Engineer [ See the Certificate ] Microsoft, India
+2021 Microsoft Certified, Azure Data Scientist [ See the Certificate ] Microsoft, India
+2021 Microsoft Certified, Azure Al Engineer [ See the Certificate ] Microsoft, India
+2021 Microsoft Certified, Azure Al Fundamentals [ See the Certificate ] Microsoft, India
+2020 Google Certified, Google Cloud - Professional Data Engineer [ See the Certificate ] Google Cloud, India
+2020 Certification, Applied Machine Learning & Deep Learning Course [ See the Certificate ] AAIC, India
+2020 Certification, Computer Vision Nanodegree [ See the Certificate ] UDACITY, U.S.A
+2020 =Certification, Deep Learning Nanodegree [ See the Certificate ] UDACITY, U.S.A
+2020 = Certification, Tensorflow in Practice Specialization [ See the Certificate ] Coursera, U.S.A
+2020 Certification, Deep Learning Specialization [ See the Certificate ] Coursera, U.S.A
+
+Writing
+
+Image Captioning in Python with Keras [ Visit blog page ] Medium Blog Page
+
+TECHNICAL BLOG WRITER Sep. 2019
+
++ END TO END approach for Image Captioning, starting right from data collection up to model building and making predictions on model.
+
+Education
+Maharashtra Institute of Technology (University of Pune) Pune, India
+B.E. IN INFORMATION TECHNOLOGY June. 2013 - June. 2017
+
++ Machine Learning, Deep Learning, lol, Cloud Computing, Software Engineering, Data Structures and Algorithms, Web Technologies.
+
+OCTOBER 21, 2021 BHAVESH WADHWANI - RESUME 2
