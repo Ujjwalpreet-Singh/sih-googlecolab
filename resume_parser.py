@@ -5,14 +5,14 @@ import pytesseract
 import os
 import re
 import google.generativeai as genai
-from google.colab import userdata
+from dotenv import load_dotenv
 import json
+
+load_dotenv()
 
 print("Libraries imported successfully.")
 
-api_key = userdata.get("GOOGLE_API_KEY")
-
-# api_key = "YOUR_ACTUAL_API_KEY_HERE"
+api_key = os.getenv("GOOGLE_API_KEY")
 
 if not api_key:
     raise ValueError("Google API Key not found. Please set it as a Colab secret named 'GOOGLE_API_KEY' or directly in the code.")
@@ -21,7 +21,7 @@ if not api_key:
 genai.configure(api_key=api_key)
 
 # Initialize the model
-model = genai.GenerativeModel("gemini-2.5-flash-lite")
+model = genai.GenerativeModel("gemma-3-4b-it")
 
 print("Gemini configured and model initialized.")
 
@@ -195,7 +195,7 @@ print("parse_resume_with_llm function defined.")
 
 def process(resume_filepath):
 
-  # Extract text from the resume file
+
   extracted_resume_text = extract_text(resume_filepath)
 
   if extracted_resume_text:
@@ -216,7 +216,7 @@ def process(resume_filepath):
   else:
       print("Cannot parse resume data: no text was extracted.")
 
-  output_filename = 'structured_resume_data.json'
+  output_filename = 'processed_resumes/structured_resume_data.json' #change this to save as {user_id}.json
   final_json_output = json.dumps(parsed_resume_data, indent=4)
   print(final_json_output)
   with open(output_filename, 'w') as f:
@@ -224,3 +224,4 @@ def process(resume_filepath):
 
   print(f"Successfully saved structured job data to '{output_filename}'")
 
+process('uploads/input1.pdf')

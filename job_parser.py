@@ -1,12 +1,14 @@
 import google.generativeai as genai
 import os
-from google.colab import userdata
+from dotenv import load_dotenv
 import pandas as pd
-from google.colab import drive
+import time
 import json
+import re
 
+load_dotenv()
 
-api_key = userdata.get("GOOGLE_API_KEY")
+api_key = os.getenv("GOOGLE_API_KEY")
 
 
 
@@ -17,7 +19,7 @@ if not api_key:
 genai.configure(api_key=api_key)
 
 # Initialize the model
-model = genai.GenerativeModel("gemini-2.5-flash-lite")
+model = genai.GenerativeModel("gemma-3-4b-it")
 
 print("Gemini configured and model initialized.")
 
@@ -47,89 +49,128 @@ print("New prompt template optimized for BERT embedding consistency has been cre
 
 
 # Mount Google Drive (if not already mounted)
-drive.mount('/content/drive', force_remount=True)
 
 # Define the path to your CSV file on Google Drive
 # IMPORTANT: Update this path to your actual CSV file location
-csv_file_path = '/content/drive/My Drive/SIH-Project/postings.csv'
-
-try:
-    # Read the CSV file into a pandas DataFrame
-    df = pd.read_csv(csv_file_path)
-
-    # Ensure the 'description' column exists
-    if 'description' not in df.columns:
-        raise ValueError("CSV file must contain a 'description' column.")
-
-    # Extract the first 10 job descriptions
-    # You can adjust the number of postings or criteria as needed
-    job_descriptions = df['description'].head(5).tolist()
-
-    print(f"Successfully loaded {len(job_descriptions)} job descriptions from '{csv_file_path}'.")
-
-    # Print the first job description to verify
-    if job_descriptions:
-        print("\nFirst loaded job description (first 200 chars):")
-        print(job_descriptions[0][:200] + "...")
-    else:
-        print("No job descriptions loaded.")
-
-except FileNotFoundError:
-    print(f"Error: CSV file not found at '{csv_file_path}'. Please check the path.")
+def process(file_path,limit):
+    print("it has begun")
+    print(file_path)
     job_descriptions = []
-except ValueError as e:
-    print(f"Error processing CSV: {e}")
-    job_descriptions = []
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
-    job_descriptions = []
-
-structured_job_data = []
-for job_description in job_descriptions:
-    # Format the prompt with the current job description and predefined categories
-    formatted_prompt = new_prompt_template_final.format(
-        job_description=job_description
-    )
 
     try:
-        # Generate content using the Gemini model
-        response = model.generate_content(formatted_prompt)
-        generated_text = response.text
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"File not found at '{file_path}'.")
 
-        # Attempt to parse the generated text as JSON
-        # Gemini sometimes wraps JSON in markdown code blocks, so we need to extract it.
-        if generated_text.startswith('```json') and generated_text.endswith('```'):
-            json_str = generated_text[len('```json'):-len('```')].strip()
+        ext = os.path.splitext(file_path)[1].lower()
+
+        # ✅ CASE 1: CSV FILE
+        if ext == ".csv":
+            df = pd.read_csv(file_path)
+
+            if "description" not in df.columns:
+                raise ValueError("CSV file must contain a 'description' column.")
+
+            job_descriptions = df["description"].head(int(limit)).tolist()
+
+        # ✅ CASE 2: JSON FILE
+        elif ext == ".json":
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            # ✅ Accepts both list of dicts or dict with key
+            if isinstance(data, list):
+                job_descriptions = [
+                    item["description"]
+                    for item in data
+                    if isinstance(item, dict) and "description" in item
+                ]
+            elif isinstance(data, dict) and "description" in data:
+                job_descriptions = data["description"]
+                if not isinstance(job_descriptions, list):
+                    raise ValueError("'description' in JSON must be a list.")
+            else:
+                raise ValueError("JSON must contain a list or a 'description' key.")
+
+            job_descriptions = job_descriptions[:limit]
+
         else:
-            json_str = generated_text.strip()
+            raise ValueError("Unsupported file format. Only .csv and .json are allowed.")
 
-        parsed_data = json.loads(json_str)
-        structured_job_data.append(parsed_data)
+        print(f"✅ Successfully loaded {len(job_descriptions)} job descriptions from '{file_path}'.")
+
+        if job_descriptions:
+            print("\n✅ First loaded job description (first 200 chars):")
+            print(job_descriptions[0][:200] + "...")
+        else:
+            print("⚠️ No job descriptions found.")
+
+    except FileNotFoundError as e:
+        print(f"❌ {e}")
+
+    except json.JSONDecodeError:
+        print("❌ Invalid JSON file format.")
+
+    except ValueError as e:
+        print(f"❌ Data Error: {e}")
+
     except Exception as e:
-        print(f"Error processing job description: {job_description[:50]}...")
-        print(f"Error: {e}")
-        print(f"Raw response text: {generated_text}")
-        # Optionally, append original description with an error message
-        structured_job_data.append({
-            "original_description": job_description,
-            "error": str(e),
-            "raw_gemini_response": generated_text
-        })
+        print(f"❌ Unexpected error: {e}")
 
-print("Processing complete. First entry of structured_job_data:")
-if structured_job_data:
-    print(json.dumps(structured_job_data[0], indent=4))
-else:
-    print("No data processed.")
 
-# Convert the structured_job_data list into a single JSON formatted string
-final_json_output = json.dumps(structured_job_data, indent=4)
+    structured_job_data = []
+    count = 1
+    for job_description in job_descriptions:
+        print('processing job description no.', count)
+        # Format the prompt with the current job description and predefined categories
+        formatted_prompt = new_prompt_template_final.format(
+            job_description=job_description
+        )
 
-# Print the final_json_output to display the complete structured data
-print(final_json_output)
-output_filename = 'structured_job_data.json'
+        try:
+            # Generate content using the Gemini model
+            response = model.generate_content(formatted_prompt)
+            generated_text = response.text
 
-with open(output_filename, 'w') as f:
-    f.write(final_json_output)
+            match = re.search(r"```json\s*(.*?)\s*```", generated_text, re.DOTALL)
 
-print(f"Successfully saved structured job data to '{output_filename}'")
+            if match:
+                json_str = match.group(1).strip()
+            else:
+                # ✅ Fallback: extract first {...} anywhere in text
+                match = re.search(r"\{.*\}", generated_text, re.DOTALL)
+                if not match:
+                    raise ValueError("No JSON object found in response.")
+                json_str = match.group(0).strip()
+
+            parsed_data = json.loads(json_str)
+            structured_job_data.append(parsed_data)
+        except Exception as e:
+            print(f"Error processing job description: {job_description[:50]}...")
+            print(f"Error: {e}")
+            print(f"Raw response text: {generated_text}")
+            # Optionally, append original description with an error message
+            structured_job_data.append({
+                "original_description": job_description,
+                "error": str(e),
+                "raw_gemini_response": generated_text
+            })
+        time.sleep(5)
+        count += 1
+
+    print("Processing complete. First entry of structured_job_data:")
+    if structured_job_data:
+        print(json.dumps(structured_job_data[0], indent=4))
+    else:
+        print("No data processed.")
+
+    # Convert the structured_job_data list into a single JSON formatted string
+    final_json_output = json.dumps(structured_job_data, indent=4)
+
+    # Print the final_json_output to display the complete structured data
+    print(final_json_output)
+    output_filename = 'processed_jobs/structured_job_data.json' #change this to save as {internship_id}.json
+
+    with open(output_filename, 'w') as f:
+        f.write(final_json_output)
+
+    print(f"Successfully saved structured job data to '{output_filename}'")
